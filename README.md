@@ -1,2 +1,6 @@
 # Twitch-Plays-Love2d
-Basic love2d app that lets you simulate user input based on chat messages.
+Using twitch chat to play games, using LÖVE to easily display some info and stuff.
+
+## Getting Started
+
+1. Get a twitch oauth token: 
