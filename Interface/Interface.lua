@@ -1,16 +1,16 @@
 ---@author Gage Henderson 2025-02-08 13:38
 
+local EventManager = require("EventManager.EventManager")
 local MessageBox = require("Interface.Components.MessageBox")
 
 --
--- Non-global singleton class.
+-- Singleton class, instantiated and handled by `App`.
 --
--- Handles creating, updating, drawing, and input for the interface.
+-- Handles creating, updating, drawing, and input for the UI.
 --
 ---@class Interface
 ---@field logs_message_box MessageBox
-local Interface = {
-}
+local Interface = {}
 Interface.__index = Interface
 
 function Interface:new()
@@ -18,6 +18,10 @@ function Interface:new()
     setmetatable(new, Interface)
 
     new.logs_message_box = MessageBox:new(0,0,0.5,1)
+
+    EventManager:subscribe("log_message", function(...)
+        new.logs_message_box:new_message(...)
+    end)
 
     return new
 end
@@ -33,6 +37,12 @@ end
 function Interface:keypressed(key)
 end
 function Interface:textinput(text)
+end
+function Interface:mousepressed(x,y,button)
+    self.logs_message_box:mousepressed(x,y,button)
+end
+function Interface:mousereleased(x,y,button)
+    self.logs_message_box:mousereleased(x,y,button)
 end
 
 return Interface

@@ -1,9 +1,13 @@
 ---@author Gage Henderson 2025-02-08 12:47
+
 local socket = require("socket")
 local config = require("config")
+local EventManager = require("EventManager.EventManager")
 local Interface = require("Interface.Interface")
 
+--
 -- Entry point for the app, a global module.
+--
 ---@class App
 ---@field interface Interface
 App = {
@@ -23,7 +27,20 @@ function App:resize(w,h)
 end
 function App:keypressed(key)
     self.interface:keypressed(key)
+
+    -- TESTING! REMOVE ME!
+    if key == "space" then
+        for i=1,100 do
+            EventManager:broadcast("log_message", tostring(i))
+        end
+    end
 end
 function App:textinput(text)
     self.interface:textinput(text)
+end
+function App:mousepressed(x,y,button)
+    self.interface:mousepressed(x,y,button)
+end
+function App:mousereleased(x,y,button)
+    self.interface:mousereleased(x,y,button)
 end

@@ -15,6 +15,12 @@ end
 function love.textinput(text)
     App:textinput(text)
 end
+function love.mousepressed(x, y, button)
+    App:mousepressed(x, y, button)
+end
+function love.mousereleased(x, y, button)
+    App:mousereleased(x, y, button)
+end
 function love.resize(w, h)
     App:resize(w, h)
 end
