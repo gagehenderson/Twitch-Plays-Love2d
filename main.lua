@@ -15,3 +15,6 @@ end
 function love.textinput(text)
     App:textinput(text)
 end
+function love.resize(w, h)
+    App:resize(w, h)
+end
