@@ -21,7 +21,6 @@ local SCROLLWHEEL_INC = 10
 ---@field scroll_direction "normal" | "inverse"
 ---@field is_dragging boolean True when the user has click and held on the thumb.
 local ScrollBar = {}
-ScrollBar.__index = ScrollBar
 
 ---@param scroll_direction? "normal" | "inverse" Default: "normal"
 function ScrollBar:new(scroll_direction)
@@ -35,7 +34,7 @@ function ScrollBar:new(scroll_direction)
         scroll_y         = 0,
         is_dragging      = false
     }
-    setmetatable(new, ScrollBar)
+    setmetatable(new, {__index = ScrollBar})
     return new
 end
 

@@ -1,20 +1,25 @@
 ---@author Gage Henderson 2025-02-08 12:47
 
-local socket = require("socket")
-local config = require("config")
 local EventManager = require("EventManager.EventManager")
-local Interface = require("Interface.Interface")
+local Interface    = require("Interface.Interface")
+local TwitchChat   = require("TwitchChat")
 
 --
 -- Entry point for the app, a global module.
 --
 ---@class App
+---@field conn any Our connection to twitch irc.
 ---@field interface Interface
 App = {
+    conn = nil
 }
 
 function App:load()
+    -- Init submodules.
     self.interface = Interface:new()
+    self.twitch_chat = TwitchChat:new()
+
+    self.twitch_chat:connect()
 end
 function App:update(dt)
     self.interface:update(dt)
@@ -27,13 +32,6 @@ function App:resize(w,h)
 end
 function App:keypressed(key)
     self.interface:keypressed(key)
-
-    -- TESTING! REMOVE ME!
-    if key == "space" then
-        for i=1,100 do
-            EventManager:broadcast("log_message", tostring(i))
-        end
-    end
 end
 function App:textinput(text)
     self.interface:textinput(text)

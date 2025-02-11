@@ -11,11 +11,10 @@ local MessageBox = require("Interface.Components.MessageBox")
 ---@class Interface
 ---@field logs_message_box MessageBox
 local Interface = {}
-Interface.__index = Interface
 
 function Interface:new()
     local new = {}
-    setmetatable(new, Interface)
+    setmetatable(new, {__index = Interface})
 
     new.logs_message_box = MessageBox:new(0,0,0.5,1)
 

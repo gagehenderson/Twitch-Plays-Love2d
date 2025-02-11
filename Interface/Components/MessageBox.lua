@@ -19,7 +19,6 @@ local ScrollBar = require("Interface.Components.ScrollBar")
 ---@field messages string[] | table[]
 ---@field scroll_bar ScrollBar
 local MessageBox = {}
-MessageBox.__index = MessageBox
 
 -- Numbers should be between 0 - 1 representing a percentage of the screen.
 ---@param x number
@@ -35,7 +34,7 @@ function MessageBox:new(x,y,width,height)
         messages   = {},
         scroll_bar = ScrollBar:new("inverse")
     }
-    setmetatable(new, MessageBox)
+    setmetatable(new, {__index = MessageBox})
 
     new:resize()
 
