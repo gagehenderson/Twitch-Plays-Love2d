@@ -132,7 +132,7 @@ function MessageBox:_print_messages()
 
     love.graphics.setScissor()
 
-    self.scroll_bar:set_content_height(content_height)
+    self.scroll_bar:set_content_height(content_height+FONT:getHeight())
 end
 
 return MessageBox
