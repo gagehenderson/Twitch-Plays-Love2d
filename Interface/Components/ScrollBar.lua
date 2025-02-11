@@ -15,9 +15,9 @@ local SCROLLWHEEL_INC = 10
 ---@field scroll_y number
 ---@field position {x: number, y: number}
 ---@field dimensions {width: number, height: number}
+---@field content_bounds {x: number, y: number, width: number, height: number}
 ---@field thumb {y: number, height: number}
 ---@field content_height number
----@field max_height number
 ---@field scroll_direction "normal" | "inverse"
 ---@field is_dragging boolean True when the user has click and held on the thumb.
 local ScrollBar = {}
@@ -29,10 +29,10 @@ function ScrollBar:new(scroll_direction)
         position   = { x = 0, y = 0 },
         dimensions = { width = WIDTH, height = 0 },
         thumb      = { y = 0, height = THUMB_HEIGHT },
+        content_bounds   = { x = 0, y = 0, width = 0, height = 0},
         scroll_direction = scroll_direction or "normal",
         content_height   = 0,
         scroll_y         = 0,
-        max_height       = 0,
         is_dragging      = false
     }
     setmetatable(new, ScrollBar)
@@ -44,9 +44,13 @@ function ScrollBar:set_content_height(height)
     self.content_height = height
 end
 
+---@param x number
 ---@param height number
-function ScrollBar:set_max_height(height)
-    self.max_height = height
+function ScrollBar:set_content_bounds(x,y,width,height)
+    self.content_bounds = {
+        x = x, y = y,
+        width = width, height = height
+    }
 end
 
 ---@param height number
@@ -62,7 +66,8 @@ function ScrollBar:set_position(x,y)
 end
 
 function ScrollBar:update(dt)
-    self:_update_thumb()
+    self:_handle_dragging()
+    self:_update_idle_thumb()
 end
 
 function ScrollBar:draw()
@@ -74,7 +79,7 @@ function ScrollBar:draw()
         BORDER_RADIUS
     )
 
-    if self.content_height > self.max_height then
+    if self.content_height > self.content_bounds.height then
         love.graphics.setColor(THUMB_COLOR)
         love.graphics.rectangle(
             "fill",
@@ -101,33 +106,59 @@ function ScrollBar:mousereleased(_,_,button)
     end
 end
 
--- Handle the position of the thumb and the scroll_y.
--- Basically the actual scrolling behavior.
-function ScrollBar:_update_thumb()
-    if self.content_height <= self.max_height then
+function ScrollBar:wheelmoved(_,y)
+    self:_handle_scrolling(y)
+end
+
+-- Handle clicking and dragging the thumb.
+function ScrollBar:_handle_dragging()
+    if self.content_height > self.content_bounds.height and
+    self.is_dragging then
+        local mouse_y = love.mouse.getY()
+        self:_set_thumb_y(mouse_y - self.thumb.height / 2)
+    end
+end
+
+-- Updates the position of the thumb when the content is not scrollable, so
+-- that when it becomes scrollable it is in the correct position.
+function ScrollBar:_update_idle_thumb()
+    if self.content_height <= self.content_bounds.height then
         if self.scroll_direction == "normal" then
             self.thumb.y = 0
         elseif self.scroll_direction == "inverse" then
             self.thumb.y = self.dimensions.height - self.thumb.height
         end
-    else
-        local max_y = self.dimensions.height - self.thumb.height
-        local mouse_y = love.mouse.getY()
+    end
+end
 
-        if self.is_dragging then
-            self.thumb.y = mouse_y - self.thumb.height / 2
-            if self.thumb.y < 0 then
-                self.thumb.y = 0
-            elseif self.thumb.y > max_y then
-                self.thumb.y = max_y
-            end
-        end
+-- Handle scroll wheel input.
+-- Triggered by the user scrolling.
+-- We only scroll if the mouse is within the container_bounds.
+---@param y number
+function ScrollBar:_handle_scrolling(y)
+    self:_set_thumb_y(self.thumb.y - y * SCROLLWHEEL_INC)
+end
 
-        if self.scroll_direction == "normal" then
-            self.scroll_y = (self.thumb.y / max_y) * (self.content_height - self.max_height)
-        elseif self.scroll_direction == "inverse" then
-            self.scroll_y = (1 - (self.thumb.y / max_y)) * (self.content_height - self.max_height)
-        end
+-- Set the thumb y position
+-- Clamps to bounds.
+---@param y number
+function ScrollBar:_set_thumb_y(y)
+    local max_y = self.dimensions.height - self.thumb.height
+
+    self.thumb.y = y
+
+    -- Clamp
+    if self.thumb.y < 0 then
+        self.thumb.y = 0
+    elseif self.thumb.y > max_y then
+        self.thumb.y = max_y
+    end
+
+    -- Apply to scroll_y
+    if self.scroll_direction == "normal" then
+        self.scroll_y = (self.thumb.y / max_y) * (self.content_height - self.content_bounds.height)
+    elseif self.scroll_direction == "inverse" then
+        self.scroll_y = (1 - (self.thumb.y / max_y)) * (self.content_height - self.content_bounds.height)
     end
 end
 

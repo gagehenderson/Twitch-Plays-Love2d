@@ -44,5 +44,8 @@ end
 function Interface:mousereleased(x,y,button)
     self.logs_message_box:mousereleased(x,y,button)
 end
+function Interface:wheelmoved(x,y)
+    self.logs_message_box:wheelmoved(x,y)
+end
 
 return Interface

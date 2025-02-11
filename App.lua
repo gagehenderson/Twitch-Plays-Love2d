@@ -44,3 +44,6 @@ end
 function App:mousereleased(x,y,button)
     self.interface:mousereleased(x,y,button)
 end
+function App:wheelmoved(x,y)
+    self.interface:wheelmoved(x,y)
+end

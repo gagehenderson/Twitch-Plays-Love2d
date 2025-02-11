@@ -67,7 +67,12 @@ function MessageBox:resize(w,h)
     self.dimensions.width = self.normal_dim.width * love.graphics.getWidth()
     self.dimensions.height = self.normal_dim.height * love.graphics.getHeight()
 
-    self.scroll_bar:set_max_height(self.dimensions.height - INNER_PADDING * 2)
+    self.scroll_bar:set_content_bounds(
+        self.position.x + INNER_PADDING,
+        self.position.y + INNER_PADDING,
+        self.dimensions.width - INNER_PADDING * 2,
+        self.dimensions.height - INNER_PADDING * 2
+    )
     self.scroll_bar:set_visual_height(self.dimensions.height - INNER_PADDING * 2)
     self.scroll_bar:set_position(
         self.position.x + self.dimensions.width - INNER_PADDING - self.scroll_bar.dimensions.width,
@@ -81,6 +86,10 @@ end
 
 function MessageBox:mousereleased(x,y,button)
     self.scroll_bar:mousereleased(x,y,button)
+end
+
+function MessageBox:wheelmoved(x,y)
+    self.scroll_bar:wheelmoved(x,y)
 end
 
 function MessageBox:_draw_outline()

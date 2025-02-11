@@ -24,3 +24,6 @@ end
 function love.resize(w, h)
     App:resize(w, h)
 end
+function love.wheelmoved(x,y)
+    App:wheelmoved(x,y)
+end
