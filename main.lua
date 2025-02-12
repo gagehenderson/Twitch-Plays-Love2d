@@ -27,3 +27,6 @@ end
 function love.wheelmoved(x,y)
     App:wheelmoved(x,y)
 end
+function love.quit()
+    App:quit()
+end

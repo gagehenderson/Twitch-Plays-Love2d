@@ -27,7 +27,8 @@ function TwitchChat:connect()
     -- Connect to the twitch chat irc.
     self.conn = assert(socket.connect("irc.chat.twitch.tv", 6667), "Failed to connect to Twitch IRC")
     self.conn:settimeout(0)
-    EventManager:broadcast("log_message", "Successfully connected to Twitch IRC")
+    EventManager:broadcast("log_message", {0,1,0}, "Successfully connected to Twitch IRC")
+    self.is_connected = true
 
     -- Authenticate
     EventManager:broadcast("log_message", "Authenticating...")
@@ -39,10 +40,36 @@ end
 function TwitchChat:update()
     local line, err = self.conn:receive()
     if line then
-        EventManager:broadcast("log_message", "[Received Message: ] " .. line)
+        self:_handle_message(line)
     elseif err ~= "timeout" then
         EventManager:broadcast("log_message", {1,0,0}, "[ERROR MESSAGE: ] " .. err)
     end
+end
+
+function TwitchChat:disconnect()
+    if self.conn then
+        self.conn:send("PART " .. config.channel .. "\r\n")
+        self.conn:close()
+        EventManager:broadcast("log_message", "Disconnected from Twitch IRC")
+    end
+end
+
+---@param line string
+function TwitchChat:_handle_message(line)
+    if string.find(line, " 001 ") and not self.is_authenticated then
+        self.is_authenticated = true
+        EventManager:broadcast("log_message", {0,1,0}, "Successfully authenticated with Twitch IRC")
+
+        self.conn:send("JOIN #" .. config.channel .. "\r\n")
+        EventManager:broadcast("log_message", "Attemping to join channel: #" .. config.channel)
+
+    elseif string.find(line, " 353 ") and not self.is_joined then
+        self.is_joined = true
+        EventManager:broadcast("log_message", {0,1,0}, "Successfully joined channel: #" .. config.channel)
+    end
+
+    EventManager:broadcast("log_message", "[Received Message: ] " .. line)
+
 end
 
 return TwitchChat

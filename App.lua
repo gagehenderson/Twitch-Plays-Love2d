@@ -23,6 +23,7 @@ function App:load()
 end
 function App:update(dt)
     self.interface:update(dt)
+    self.twitch_chat:update(dt)
 end
 function App:draw()
     self.interface:draw()
@@ -44,4 +45,7 @@ function App:mousereleased(x,y,button)
 end
 function App:wheelmoved(x,y)
     self.interface:wheelmoved(x,y)
+end
+function App:quit()
+    self.twitch_chat:disconnect()
 end
