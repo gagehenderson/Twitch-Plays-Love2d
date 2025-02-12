@@ -1,4 +1,4 @@
-require "App"
+require "Modules.App"
 
 function love.load()
     App:load()

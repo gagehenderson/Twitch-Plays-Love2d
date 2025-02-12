@@ -1,6 +1,6 @@
 ---@author Gage Henderson 2025-02-10 08:35
 
-local event_registry = require("EventManager.event_registry")
+local event_registry = require("modules.EventManager.event_registry")
 
 -- 
 -- A module that handles events.

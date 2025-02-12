@@ -1,8 +1,7 @@
 ---@author Gage Henderson 2025-02-08 12:47
 
-local EventManager = require("EventManager.EventManager")
-local Interface    = require("Interface.Interface")
-local TwitchChat   = require("TwitchChat")
+local Interface  = require("modules.Interface.Interface")
+local TwitchChat = require("modules.TwitchChat")
 
 --
 -- Entry point for the app, a global module.
@@ -23,7 +22,7 @@ function App:load()
 end
 function App:update(dt)
     self.interface:update(dt)
-    self.twitch_chat:update(dt)
+    self.twitch_chat:update()
 end
 function App:draw()
     self.interface:draw()

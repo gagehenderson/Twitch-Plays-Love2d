@@ -1,7 +1,7 @@
 ---@author Gage Henderson 2025-02-08 13:38
 
-local EventManager = require("EventManager.EventManager")
-local MessageBox = require("Interface.Components.MessageBox")
+local EventManager = require("modules.EventManager.EventManager")
+local MessageBox = require("modules.Interface.Components.MessageBox")
 
 --
 -- Singleton class, instantiated and handled by `App`.

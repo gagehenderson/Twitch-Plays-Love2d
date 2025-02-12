@@ -4,7 +4,7 @@ local TWITCH_SERVER_PREFIX = ":tmi.twitch.tv"
 
 local socket = require("socket")
 local config = require("config")
-local EventManager = require("EventManager.EventManager")
+local EventManager = require("modules.EventManager.EventManager")
 
 -- Handles connecting to and communicating with the twitch chat irc!
 ---@class TwitchChat

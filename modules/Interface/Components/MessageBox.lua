@@ -6,7 +6,7 @@ local MESSAGE_PADDING = 0 -- Space between visual border and text.
 local MESSAGE_SPACING = 1 -- Space between messages.
 local FONT = love.graphics.newFont(13)
 
-local ScrollBar = require("Interface.Components.ScrollBar")
+local ScrollBar = require("modules.Interface.Components.ScrollBar")
 
 --
 -- A UI element that displays a list of messages.
