@@ -61,6 +61,10 @@ function TwitchChat:disconnect()
     end
 end
 
+-- Here we handle all incoming messages.
+-- Internally, this authenticates, confirms channel join, and responds to PINGS.
+-- All incoming messsages are logged (via the log_message event).
+-- Channel chat messages are broadcast (via the chat_message event).
 ---@param line string
 function TwitchChat:_handle_message(line)
     if string.find(line, TWITCH_SERVER_PREFIX .. " 001") and not self.is_authenticated then

@@ -6,13 +6,13 @@ local TwitchChat   = require("TwitchChat")
 
 --
 -- Entry point for the app, a global module.
+-- Initializes / updates submodules.
+-- Most communication between submodules happens through events (See EventManager).
 --
 ---@class App
----@field conn any Our connection to twitch irc.
 ---@field interface Interface
-App = {
-    conn = nil
-}
+---@field twitch_chat TwitchChat
+App = {}
 
 function App:load()
     -- Init submodules.
