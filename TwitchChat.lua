@@ -24,6 +24,11 @@ function TwitchChat:new()
 end
 
 function TwitchChat:connect()
+    -- Make sure we have the required config values.
+    assert(config.channel, "No channel specified in config file.")
+    assert(config.username, "No username specified in config file.")
+    assert(config.oauth_token, "No oauth token specified in config file.")
+
     -- Connect to the twitch chat irc.
     self.conn = assert(socket.connect("irc.chat.twitch.tv", 6667), "Failed to connect to Twitch IRC")
     self.conn:settimeout(0)

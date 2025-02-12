@@ -14,9 +14,11 @@ Using twitch chat to play games, using LÖVE to easily display some info and stu
     &response_type=token
     &scope=chat:read+chat:edit`  
     - Then copy the token from the url.  
-3. Create a `config.lua` file and put your oauth token in it:
+3. Create a `config.lua` file and define the following:
     ```lua
     return {
-        oauth_token = "YOUR_OAUTH_TOKEN"
+        oauth_token = "Your oauth token",
+        channel = "The channel you want to join",
+        username = "The username you want to use",
     }
     ```
