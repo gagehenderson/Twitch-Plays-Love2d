@@ -1,5 +1,7 @@
 ---@author Gage Henderson 2025-02-11 13:59
 
+local TWITCH_SERVER_PREFIX = ":tmi.twitch.tv"
+
 local socket = require("socket")
 local config = require("config")
 local EventManager = require("EventManager.EventManager")
@@ -61,19 +63,20 @@ end
 
 ---@param line string
 function TwitchChat:_handle_message(line)
-    if string.find(line, " 001 ") and not self.is_authenticated then
+    if string.find(line, TWITCH_SERVER_PREFIX .. " 001") and not self.is_authenticated then
         self.is_authenticated = true
         EventManager:broadcast("log_message", {0,1,0}, "Successfully authenticated with Twitch IRC")
 
         self.conn:send("JOIN #" .. config.channel .. "\r\n")
         EventManager:broadcast("log_message", "Attemping to join channel: #" .. config.channel)
-
-    elseif string.find(line, " 353 ") and not self.is_joined then
+    elseif string.find(line, TWITCH_SERVER_PREFIX .. " 353") and not self.is_joined then
         self.is_joined = true
         EventManager:broadcast("log_message", {0,1,0}, "Successfully joined channel: #" .. config.channel)
+    elseif string.match(line, "^PING :" .. TWITCH_SERVER_PREFIX) then
+        self.conn:send("PONG :" .. TWITCH_SERVER_PREFIX .. "\r\n")
+        EventManager:broadcast("log_message", {0.3,0.3,0.3}, "Sent PONG to Twitch")
     end
-
-    EventManager:broadcast("log_message", "[Received Message: ] " .. line)
+    EventManager:broadcast("log_message", {0.65,0.65,0.65}, "[Received Message: ] " .. line)
 
 end
 
