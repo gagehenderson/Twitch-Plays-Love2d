@@ -2,6 +2,7 @@
 
 local Interface  = require("modules.Interface.Interface")
 local TwitchChat = require("modules.TwitchChat")
+local InputSimulator = require("modules.InputSimulator")
 
 --
 -- Entry point for the app, a global module.
@@ -11,12 +12,14 @@ local TwitchChat = require("modules.TwitchChat")
 ---@class App
 ---@field interface Interface
 ---@field twitch_chat TwitchChat
+---@field input_simulator InputSimulator
 App = {}
 
 function App:load()
     -- Init submodules.
     self.interface = Interface:new()
     self.twitch_chat = TwitchChat:new()
+    self.input_simulator = InputSimulator:new()
 
     self.twitch_chat:connect()
 end
