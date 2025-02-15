@@ -76,7 +76,7 @@ function TwitchChat:_handle_message(line)
     elseif string.find(line, TWITCH_SERVER_PREFIX .. " 353") and not self.is_joined then
         self.is_joined = true
         EventManager:broadcast("log_message", {0,1,0}, "Successfully joined channel: #" .. config.channel)
-    elseif string.match(line, "^PING :" .. TWITCH_SERVER_PREFIX) then
+    elseif string.match(line, "^PING " .. TWITCH_SERVER_PREFIX) or string.match(line, "PING " .. TWITCH_SERVER_PREFIX .. "\r\n") then
         self.conn:send("PONG :" .. TWITCH_SERVER_PREFIX .. "\r\n")
         EventManager:broadcast("log_message", {0.3,0.3,0.3}, "Sent PONG to Twitch")
     elseif string.match(line, "PRIVMSG #" .. config.channel) then
