@@ -79,6 +79,9 @@ function TwitchChat:_handle_message(line)
     elseif string.match(line, "^PING :" .. TWITCH_SERVER_PREFIX) then
         self.conn:send("PONG :" .. TWITCH_SERVER_PREFIX .. "\r\n")
         EventManager:broadcast("log_message", {0.3,0.3,0.3}, "Sent PONG to Twitch")
+    elseif string.match(line, "PRIVMSG #" .. config.channel) then
+        local msg = string.match(line, "PRIVMSG #" .. config.channel .. " :(.*)")
+        EventManager:broadcast("chat_message", msg)
     end
     EventManager:broadcast("log_message", {0.65,0.65,0.65}, "[Received Message: ] " .. line)
 

@@ -16,5 +16,9 @@ return {
     ---@see Interface
     -- Can just pass a string, or a series of arguments as coloredText.
     -- Colored text: https://love2d.org/wiki/love.graphics.print
-    ["log_message"] = { "any" }
+    ["log_message"] = { "any" },
+
+    ---@see TwitchChat Where we broadcast this event.
+    ---@see InputSimulator Where we listen for this event.
+    ["chat_message"] = { "string" }
 }
