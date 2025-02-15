@@ -1,104 +1,109 @@
-local HOLD = 10000
-local TINY = 0.25
-local SHORT = 1
+local HOLD   = 10000
+local TINY   = 0.25
+local SHORT  = 1
 local MEDIUM = 2.5
-local LONG = 5
+local LONG   = 5
+
+local GAS_KEY   = "i"
+local RIGHT_KEY = "l"
+local LEFT_KEY  = "j"
+local BREAK_KEY = "space"
 
 return {
     ["!holdgas"] = {
-        key = "up_arrow",
+        key = GAS_KEY,
         duration = HOLD
     },
     ["!releasegas"] = {
-        key = "up_arrow",
+        key = GAS_KEY,
         release = true
     },
     ["!tinygas"] = {
-        key = "up_arrow",
+        key = GAS_KEY,
         duration = TINY
     },
     ["!shortgas"] = {
-        key = "up_arrow",
+        key = GAS_KEY,
         duration = SHORT
     },
     ["!mediumgas"] = {
-        key = "up_arrow",
+        key = GAS_KEY,
         duration = MEDIUM
     },
     ["!longgas"] = {
-        key = "up_arrow",
+        key = GAS_KEY,
         duration = LONG
     },
     ["!holdbreak"] = {
-        key = "down_arrow",
+        key = BREAK_KEY,
         duration = HOLD
     },
     ["!releasebreak"] = {
-        key = "down_arrow",
+        key = BREAK_KEY,
         release = true
     },
     ["!tinybreak"] = {
-        key = "down_arrow",
+        key = BREAK_KEY,
         duration = TINY
     },
     ["!shortbreak"] = {
-        key = "down_arrow",
+        key = BREAK_KEY,
         duration = SHORT
     },
     ["!mediumbreak"] = {
-        key = "down_arrow",
+        key = BREAK_KEY,
         duration = MEDIUM
     },
     ["!longbreak"] = {
-        key = "down_arrow",
+        key = BREAK_KEY,
         duration = LONG
     },
     ["!holdright"] = {
-        key = "right_arrow",
+        key = RIGHT_KEY,
         duration = HOLD
     },
     ["!releaseright"] = {
-        key = "right_arrow",
+        key = RIGHT_KEY,
         release = true
     },
     ["!tinyright"] = {
-        key = "right_arrow",
+        key = RIGHT_KEY,
         duration = TINY
     },
     ["!shortright"] = {
-        key = "right_arrow",
+        key = RIGHT_KEY,
         duration = SHORT
     },
     ["!mediumright"] = {
-        key = "right_arrow",
+        key = RIGHT_KEY,
         duration = MEDIUM
     },
     ["!longright"] = {
-        key = "right_arrow",
+        key = RIGHT_KEY,
         duration = LONG
     },
     ["!holdleft"] = {
-        key = "left_arrow",
+        key = LEFT_KEY,
         duration = HOLD
     },
     ["!releaseleft"] = {
-        key = "left_arrow",
+        key = LEFT_KEY,
         release = true
     },
     ["!tinyleft"] = {
-        key = "left_arrow",
+        key = LEFT_KEY,
         duration = TINY
     },
     ["!shortleft"] = {
-        key = "left_arrow",
+        key = LEFT_KEY,
         duration = SHORT
     },
     ["!mediumleft"] = {
-        key = "left_arrow",
+        key = LEFT_KEY,
         duration = MEDIUM
     },
     ["!longleft"] = {
-        key = "left_arrow",
+        key = LEFT_KEY,
         duration = LONG
     }
 }

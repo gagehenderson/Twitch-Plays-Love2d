@@ -62,10 +62,10 @@ function InputDisplay:draw()
     love.graphics.setFont(FONT)
     love.graphics.setColor(1,1,1)
 
-    local str = ""
     for key, duration in pairs(self.inputs) do
-        str = str .. key .. " " .. duration
+        local str = key .. " " .. duration
         love.graphics.printf(str, x, y, width - MESSAGE_PADDING * 2, "left")
+        y = y + FONT:getHeight() + MESSAGE_SPACING
     end
 
 end
