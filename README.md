@@ -1,5 +1,6 @@
 # Twitch-Plays-Love2d
-Using twitch chat to play games, using LÖVE to easily display some info and stuff.
+Using twitch chat to play games, using LÖVE. Only works on Windows due to how 
+we simulate keyboard input.
 
 ## Getting Started
 

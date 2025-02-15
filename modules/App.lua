@@ -2,7 +2,7 @@
 
 local Interface  = require("modules.Interface.Interface")
 local TwitchChat = require("modules.TwitchChat")
-local InputSimulator = require("modules.InputSimulator")
+local InputSimulator = require("modules.InputSimulator.InputSimulator")
 
 --
 -- Entry point for the app, a global module.
@@ -26,6 +26,7 @@ end
 function App:update(dt)
     self.interface:update(dt)
     self.twitch_chat:update()
+    self.input_simulator:update(dt)
 end
 function App:draw()
     self.interface:draw()
