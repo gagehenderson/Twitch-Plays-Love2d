@@ -20,5 +20,11 @@ return {
 
     ---@see TwitchChat Where we broadcast this event.
     ---@see InputSimulator Where we listen for this event.
-    ["chat_message"] = { "string" }
+    ["chat_message"] = { "string" },
+
+    ---@see InputSimulator Where this is broadcast
+    ---@see Interface Where this is received.
+    -- Used to update the state of current inputs from the InputSimulator to
+    -- the interface component that displays them.
+    ["update_input_state"] = { "table" }
 }

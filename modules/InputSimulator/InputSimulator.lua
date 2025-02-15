@@ -52,7 +52,7 @@ ffi.cdef[[
 -- 
 --
 ---@class InputSimulator
----@field current_inputs {key: string, duration: number}
+---@field current_inputs table<string, number>
 ---@field game_commands table<string, {key: string, duration?: number, release?: boolean}>
 local InputSimulator = {}
 
@@ -87,10 +87,7 @@ function InputSimulator:_handle_chat_messages(msg)
         if command.release then
             self:_release(command.key)
         elseif command.duration then
-            self.current_inputs[command.key] = {
-                key = command.key,
-                duration = command.duration
-            }
+            self:_hold(command.key, command.duration)
         end
     end
 end
@@ -100,6 +97,17 @@ function InputSimulator:update(dt)
     if bit.band(ffi.C.GetAsyncKeyState(keymap[KILL_SWITCH]), 0x8000) ~= 0 then
         love.event.quit()
     end
+
+    -- Run down durations, releasing keys if they have expired.
+    for key, duration in pairs(self.current_inputs) do
+        self.current_inputs[key] = duration - dt
+        if duration <= 0 then
+            self:_release(key)
+        end
+    end
+
+    -- Broadcast our current inputs, listened to by Interface.
+    EventManager:broadcast("update_input_state", self.current_inputs)
 end
 
 -- Get a new input struct to be used with `SendInput`.
@@ -123,7 +131,8 @@ end
 
 -- Press and hold down a key indefinitely.
 ---@param key string
-function InputSimulator:_hold(key)
+---@param duration number
+function InputSimulator:_hold(key, duration)
     local vk = keymap[key]
 
     local input = self:_create_input(vk, false)
@@ -139,7 +148,10 @@ function InputSimulator:_hold(key)
             ". Error code: " .. tostring(errorCode)
         )
     end
+
+    self.current_inputs[key] = duration
 end
+
 
 -- Release a key.
 ---@param key string
@@ -159,6 +171,8 @@ function InputSimulator:_release(key)
             ". Error code: " .. tostring(errorCode)
         )
     end
+
+    self.current_inputs[key] = nil
 end
 
 -- Validate a game config, we run this in :new()
@@ -166,7 +180,7 @@ function InputSimulator:_validate_game_config()
     for command_string, data in pairs(self.game_commands) do
         assert(data.key, "No key defined for command: " .. command_string)
         assert(type(data.key) == "string", "Key must be a string. Example: \"up_arrow\" for command: " .. command_string)
-        assert(keymap[data.key], "Could not find keymap for key: " .. command_string)
+        assert(keymap[data.key], "Could not find keymap for key: " .. data.key .. " for command: " .. command_string)
         assert(data.duration or data.release, "Must define either a duration or a release for command: " .. command_string)
         assert((data.duration and type(data.duration) == "number") or data.duration == nil, "Duration must be a number for command: " .. command_string)
     end

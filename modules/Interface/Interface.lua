@@ -1,7 +1,8 @@
 ---@author Gage Henderson 2025-02-08 13:38
 
 local EventManager = require("modules.EventManager.EventManager")
-local MessageBox = require("modules.Interface.Components.MessageBox")
+local MessageBox   = require("modules.Interface.Components.MessageBox")
+local InputDisplay = require("modules.Interface.Components.InputDisplay")
 
 --
 -- Singleton class, instantiated and handled by `App`.
@@ -10,6 +11,7 @@ local MessageBox = require("modules.Interface.Components.MessageBox")
 --
 ---@class Interface
 ---@field logs_message_box MessageBox
+---@field input_display InputDisplay
 local Interface = {}
 
 function Interface:new()
@@ -17,6 +19,7 @@ function Interface:new()
     setmetatable(new, {__index = Interface})
 
     new.logs_message_box = MessageBox:new(0,0,0.5,1)
+    new.input_display    = InputDisplay:new(0.5,0,0.5,1)
 
     EventManager:subscribe("log_message", function(...)
         new.logs_message_box:new_message(...)
@@ -29,9 +32,11 @@ function Interface:update(dt)
 end
 function Interface:draw()
     self.logs_message_box:draw()
+    self.input_display:draw()
 end
 function Interface:resize(w,h)
     self.logs_message_box:resize(w,h)
+    self.input_display:resize(w,h)
 end
 function Interface:keypressed(key)
 end

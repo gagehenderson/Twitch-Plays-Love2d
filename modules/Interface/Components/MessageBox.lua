@@ -61,10 +61,10 @@ function MessageBox:resize(w,h)
     w = w or love.graphics.getWidth()
     h = h or love.graphics.getHeight()
 
-    self.position.x = self.normal_pos.x * love.graphics.getWidth()
-    self.position.y = self.normal_pos.y * love.graphics.getHeight()
-    self.dimensions.width = self.normal_dim.width * love.graphics.getWidth()
-    self.dimensions.height = self.normal_dim.height * love.graphics.getHeight()
+    self.position.x = self.normal_pos.x * w
+    self.position.y = self.normal_pos.y * h
+    self.dimensions.width  = self.normal_dim.width * w
+    self.dimensions.height = self.normal_dim.height * h
 
     self.scroll_bar:set_content_bounds(
         self.position.x + INNER_PADDING,
