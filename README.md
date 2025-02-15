@@ -21,5 +21,6 @@ we simulate keyboard input.
         oauth_token = "Your oauth token",
         channel = "The channel you want to join",
         username = "The username you want to use",
+        game_config = "Name of the game config file (Example: \"trackmania\")",
     }
     ```

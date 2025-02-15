@@ -1,4 +1,4 @@
--- Used gpt for this... haven't fully tested them.
+-- Used gpt for this... haven't fully verified them.
 return {
     backspace = 0x08,
     tab = 0x09,
