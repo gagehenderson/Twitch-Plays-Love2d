@@ -2,7 +2,7 @@
 Using twitch chat to play games, using LÖVE. Only works on Windows due to how 
 we simulate keyboard input.
 
-## Getting Started
+## Setup
 
 1. Create your twitch app in the [twitch developer console](https://dev.twitch.tv/console).  
     - Should be a public app.  
@@ -20,3 +20,12 @@ we simulate keyboard input.
         game_config = "Name of the game config file (Example: \"trackmania\")",
     }
     ```
+## Running
+
+1. Install [LÖVE](https://love2d.org/).  
+2. Run project.
+    - Run `love .` in the project directory.
+    - Alternatively:
+        - Compress project files into a zip file.
+        - Rename file extension from `.zip` to `.love`.
+        - Double click the `.love` file.
