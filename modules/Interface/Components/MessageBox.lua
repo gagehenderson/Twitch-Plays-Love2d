@@ -5,6 +5,7 @@ local INNER_PADDING = 10 -- Space between actual bounds and visual border.
 local MESSAGE_PADDING = 0 -- Space between visual border and text.
 local MESSAGE_SPACING = 1 -- Space between messages.
 local FONT = love.graphics.newFont(13)
+local MAX_MESSAGES = 120
 
 local ScrollBar = require("modules.Interface.Components.ScrollBar")
 
@@ -45,6 +46,9 @@ end
 ---@param ... string[]|table[] Can be a string or coloredText - See: https://love2d.org/wiki/love.graphics.print
 function MessageBox:new_message(...)
     table.insert(self.messages, { ... })
+    if #self.messages > MAX_MESSAGES then
+        table.remove(self.messages, 1)
+    end
 end
 
 function MessageBox:update(dt)
