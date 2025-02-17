@@ -40,7 +40,7 @@ ffi.cdef[[
 --
 -- Handles the logic for actually simulating keyboard input - Does so based on
 -- incoming chat messages via the `chat_message` event.
--- See: Modules/TwitchChat for where these messages are broadcast from.
+-- See: modules/TwitchChat for where these messages are broadcast from.
 --
 -- All keypresses are held down for a set duration - We track each currently
 -- held key and send a release input when it's duration has expired.
@@ -49,7 +49,6 @@ ffi.cdef[[
 -- Game commands are defined in `/game_configs/<game>.lua`. You can create
 -- multiple configs here and change which one we use in your config.lua via the
 -- `game_config` key.
--- 
 --
 ---@class InputSimulator
 ---@field current_inputs table<string, number>
@@ -61,11 +60,11 @@ function InputSimulator:new()
     assert(config.game_config, "No game config defined in config file.")
     assert(type(config.game_config) == "string", "Game config must be a string. Example: \"trackmania\".")
     assert(type(config.game_config) == "string" and not string.find(config.game_config, ".lua"), "Remove the .lua extension from your game_config value in config.lua.")
+
     local new = {
         current_inputs = {},
         game_commands = require("game_configs." .. config.game_config)
     }
-
     setmetatable(new, {__index = InputSimulator})
 
     new:_validate_game_config()
@@ -129,7 +128,6 @@ function InputSimulator:_create_input(vk, isKeyUp)
     })
 end
 
--- Press and hold down a key indefinitely.
 ---@param key string
 ---@param duration number
 function InputSimulator:_hold(key, duration)
@@ -153,7 +151,6 @@ function InputSimulator:_hold(key, duration)
 end
 
 
--- Release a key.
 ---@param key string
 function InputSimulator:_release(key)
     local vk = keymap[key]

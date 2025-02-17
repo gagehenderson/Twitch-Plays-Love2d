@@ -25,6 +25,7 @@ function TwitchChat:new()
     return new
 end
 
+-- Called in App:load().
 function TwitchChat:connect()
     -- Make sure we have the required config values.
     assert(config.channel, "No channel specified in config file.")
@@ -68,23 +69,26 @@ end
 ---@param line string
 function TwitchChat:_handle_message(line)
     if string.find(line, TWITCH_SERVER_PREFIX .. " 001") and not self.is_authenticated then
+        -- Authentication.
         self.is_authenticated = true
         EventManager:broadcast("log_message", {0,1,0}, "Successfully authenticated with Twitch IRC")
-
         self.conn:send("JOIN #" .. config.channel .. "\r\n")
         EventManager:broadcast("log_message", "Attemping to join channel: #" .. config.channel)
     elseif string.find(line, TWITCH_SERVER_PREFIX .. " 353") and not self.is_joined then
+        -- Joining the channel.
         self.is_joined = true
         EventManager:broadcast("log_message", {0,1,0}, "Successfully joined channel: #" .. config.channel)
     elseif string.match(line, "^PING " .. TWITCH_SERVER_PREFIX) or string.match(line, "PING " .. TWITCH_SERVER_PREFIX .. "\r\n") then
+        -- Ping pong.
         self.conn:send("PONG :" .. TWITCH_SERVER_PREFIX .. "\r\n")
         EventManager:broadcast("log_message", {0.3,0.3,0.3}, "Sent PONG to Twitch")
     elseif string.match(line, "PRIVMSG #" .. config.channel) then
+        -- Chat messages.
         local msg = string.match(line, "PRIVMSG #" .. config.channel .. " :(.*)")
         EventManager:broadcast("chat_message", msg)
     end
-    EventManager:broadcast("log_message", {0.65,0.65,0.65}, "[Received Message: ] " .. line)
 
+    EventManager:broadcast("log_message", {0.65,0.65,0.65}, "[Received Message: ] " .. line)
 end
 
 return TwitchChat

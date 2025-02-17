@@ -21,7 +21,7 @@ local ScrollBar = require("modules.Interface.Components.ScrollBar")
 ---@field scroll_bar ScrollBar
 local MessageBox = {}
 
--- Numbers should be between 0 - 1 representing a percentage of the screen.
+-- Args should be between 0 - 1 representing a percentage of the screen.
 ---@param x number
 ---@param y number
 ---@param width number
@@ -42,8 +42,8 @@ function MessageBox:new(x,y,width,height)
     return new
 end
 
--- Create a new message.
----@param ... string[]|table[] Can be a string or coloredText - See: https://love2d.org/wiki/love.graphics.print
+-- Args can be a single string or coloredText - See: https://love2d.org/wiki/love.graphics.print
+---@param ... string[]|table[] 
 function MessageBox:new_message(...)
     table.insert(self.messages, { ... })
     if #self.messages > MAX_MESSAGES then

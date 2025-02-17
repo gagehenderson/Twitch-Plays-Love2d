@@ -6,7 +6,6 @@ local InputDisplay = require("modules.Interface.Components.InputDisplay")
 
 --
 -- Singleton class, instantiated and handled by `App`.
---
 -- Handles creating, updating, drawing, and input for the UI.
 --
 ---@class Interface

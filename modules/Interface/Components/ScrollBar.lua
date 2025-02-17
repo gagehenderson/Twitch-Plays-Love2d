@@ -7,10 +7,14 @@ local THUMB_COLOR = { 0.5, 0.5, 0.5 }
 local THUMB_HEIGHT = 50
 local SCROLLWHEEL_INC = 10
 
+--
 -- Can be used to add a scroll bar to a UI element.
+--
 -- Can only scroll vertically.
+--
 -- Requires a fair amount of information from the parent (position/dimensions,
 -- content height, max height).
+--
 ---@class ScrollBar
 ---@field scroll_y number
 ---@field position {x: number, y: number}
@@ -91,7 +95,7 @@ end
 
 function ScrollBar:mousepressed(x,y,button)
     -- Clicking on the thumb.
-    if button == 1 and x >= self.position.x and 
+    if button == 1 and x >= self.position.x and
     x <= self.position.x + self.dimensions.width and
     y >= self.position.y + self.thumb.y and
     y <= self.position.y + self.thumb.y + self.thumb.height then
@@ -106,7 +110,7 @@ function ScrollBar:mousereleased(_,_,button)
 end
 
 function ScrollBar:wheelmoved(_,y)
-    self:_handle_scrolling(y)
+    self:_set_thumb_y(self.thumb.y - y * SCROLLWHEEL_INC)
 end
 
 -- Handle clicking and dragging the thumb.
@@ -128,14 +132,6 @@ function ScrollBar:_update_idle_thumb()
             self.thumb.y = self.dimensions.height - self.thumb.height
         end
     end
-end
-
--- Handle scroll wheel input.
--- Triggered by the user scrolling.
--- We only scroll if the mouse is within the container_bounds.
----@param y number
-function ScrollBar:_handle_scrolling(y)
-    self:_set_thumb_y(self.thumb.y - y * SCROLLWHEEL_INC)
 end
 
 -- Set the thumb y position
