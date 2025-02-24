@@ -1,7 +1,9 @@
 # Twitch-Plays-Love2d
 Using twitch chat to play games, using LÖVE. Only works on Windows due to how 
 we simulate keyboard input.
-
+  
+![Screenshot](screenshot.png?raw=true)  
+  
 ## Setup
 
 1. Create your twitch app in the [twitch developer console](https://dev.twitch.tv/console).  
