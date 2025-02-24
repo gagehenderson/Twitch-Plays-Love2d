@@ -29,3 +29,6 @@ we simulate keyboard input.
         - Compress project files into a zip file.
         - Rename file extension from `.zip` to `.love`.
         - Double click the `.love` file.
+     
+## Usage
+- Press `delete` to kill the app immediately, even when not currently focused on the app window.
